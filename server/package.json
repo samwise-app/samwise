@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js --signal SIGTERM",
     "lint": "eslint --fix src",
-    "test": "jest"
+    "test": "jest meals.test.js"
   },
   "keywords": [],
   "author": "Chancellor",

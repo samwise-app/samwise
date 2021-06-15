@@ -25,7 +25,7 @@ const references = (table, reference_table, nullable, customColumnName) => {
 const createJunctionTable = (knex, table_name, first_table, second_table) => {
   const secondColumnName = first_table === second_table ? `reference_${first_table}` : second_table;
   return knex.schema.createTable(table_name, (table) => {
-    table.integer('id').notNullable();
+    table.increments();
     references(table, first_table, false);
     references(table, second_table, false, secondColumnName);
     addDefaultColumns(table);

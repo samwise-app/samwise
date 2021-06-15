@@ -1,6 +1,9 @@
 const { gql } = require('apollo-server-express');
-const { typeDefs: books } = require('./books/schema');
-const { typeDefs: authors } = require('./authors/schema');
+const { typeDefs: books } = require('./knowledge/books/schema');
+const { typeDefs: authors } = require('./knowledge/authors/schema');
+const { typeDefs: recipes } = require('./meals/recipes/schema');
+const { typeDefs: ingredients } = require('./meals/ingredients/schema');
+const { typeDefs: units } = require('./meals/units/schema');
 
 const typeDefs = gql`
   scalar JSON
@@ -15,6 +18,9 @@ const typeDefs = gql`
   }
   ${books}
   ${authors}
+  ${recipes}
+  ${ingredients}
+  ${units}
 `;
 
 exports.typeDefs = typeDefs;

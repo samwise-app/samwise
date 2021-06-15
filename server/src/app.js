@@ -44,6 +44,9 @@ const server = new ApolloServer({
   dataSources: () => ({
     BookAPI: new DataSource.BookAPI(),
     AuthorAPI: new DataSource.AuthorAPI(),
+    RecipeAPI: new DataSource.RecipeAPI(),
+    IngredientAPI: new DataSource.IngredientAPI(),
+    UnitAPI: new DataSource.UnitAPI(),
   }),
   resolvers,
   tracing: false,
@@ -58,4 +61,4 @@ app.use('/api/v1', api);
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
 
-module.exports = app;
+module.exports = { app, server };

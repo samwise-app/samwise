@@ -2,24 +2,40 @@
 /* eslint-disable max-len */
 
 const knex = require('../knex');
+const errorHandler = require('../helpers/errorHandler');
 
 class Create {
   constructor(table) {
     this.table = table;
+    this.data = {};
+    this.error = '';
+    this.message = '';
   }
 
   async item(args) {
-    return knex(this.table)
+    await knex(this.table)
       .returning('id')
       .insert(args)
       .then((id) => {
-        return { message: 'Success!', id };
+        this.data = id[0];
+        this.message = 'Success!';
       })
-      .catch((err) => err);
+      .catch((err) => {
+        let { error, message } = errorHandler(err.detail);
+        this.error = error;
+        this.message = message;
+      });
+    return { data: this.data, error: this.error, message: this.message };
   }
 
-  async junctionTable(table, column1, column2, id1, id2) {
-    return knex(table).insert([{ [column1]: id1, [column2]: id2 }]);
+  async junctionTable(table, args) {
+    console.log(table, args);
+    return knex(table)
+      .insert(args)
+      .then(() => {
+        return { message: 'Success!' };
+      })
+      .catch((err) => console.log(err));
   }
 }
 

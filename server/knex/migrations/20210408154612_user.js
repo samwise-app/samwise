@@ -8,7 +8,7 @@ exports.up = async (knex) => {
   await knex.schema.createTable(user.tableName, (table) => {
     table.uuid('id').primary();
     table.string(user.columns.name, 40);
-    table.string(user.columns.picture);
+    table.string(user.columns.picture_url);
     addDefaultColumns(table);
   });
   await knex.schema.createTable(role.tableName, (table) => {
