@@ -5,6 +5,7 @@ const resolvers = {
   Query: {
     allBooks: async (_, __, { dataSources }, resolveInfo) => {
       const { fieldsByTypeName: request } = parseResolveInfo(resolveInfo);
+      console.log(request);
       return request.Book?.authors
         ? dataSources.BookAPI.getAllBooksWithAuthors()
         : dataSources.BookAPI.getAllBooks();

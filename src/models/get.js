@@ -2,7 +2,6 @@
 /* eslint-disable max-len */
 const { knex } = require('../knex');
 
-console.log(knex.client.connectionSettings);
 class Get {
   constructor(table) {
     this.table = table;
