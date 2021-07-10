@@ -1,0 +1,9 @@
+services:
+  app:
+    image: dChancellor/samwise
+    build: .
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./:/usr/src/app:cached
