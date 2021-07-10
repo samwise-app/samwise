@@ -1,14 +1,7 @@
-async function asyncHandler(promiseFunction) {
-  try {
-    const data = await promiseFunction;
-    return [data, null];
-  } catch (err) {
-    console.error(error);
-    return [null, error];
-  }
-}
 
-const asyncAdditiveArray = async (array, newFieldName, callback, dataSources) => {
+
+// Works through an asynchronus array and adds newly recieved data to each element of that array
+const asyncAdditiveArray = async (array, callback, dataSources) => {
   let result = [];
   let error;
   for (let i = 0; i < array.length; i += 1) {
@@ -16,7 +9,7 @@ const asyncAdditiveArray = async (array, newFieldName, callback, dataSources) =>
       const data = await callback(array[i], dataSources);
       result.push({
         ...array[i],
-        [newFieldName]: data,
+        ...data,
       });
     } catch (error) {
       console.error(error);
@@ -25,4 +18,5 @@ const asyncAdditiveArray = async (array, newFieldName, callback, dataSources) =>
   return { result, error };
 };
 
-module.exports = {asyncHandler, asyncAdditiveArray};
+
+module.exports = {asyncAdditiveArray};

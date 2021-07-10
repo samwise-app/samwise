@@ -31,6 +31,10 @@ exports.up = async (knex) => {
   await knex.schema.createTable(ingredient.tableName, (table) => {
     table.increments();
     table.string(ingredient.columns.name).notNullable();
+    table.integer(ingredient.columns.calories);
+    table.integer(ingredient.columns.fat);
+    table.integer(ingredient.columns.carbs);
+    table.integer(ingredient.columns.protein);
     addDefaultColumns(table);
   });
   await createJunctionTable(knex, ingredient_recipe.tableName, ingredient.tableName, recipe.tableName);

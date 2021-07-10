@@ -97,6 +97,11 @@ const meal = {
     tableName: 'meal_ingredient',
     columns: {
       name: 'name',
+      calories: 'calories',
+      protein: 'protein',
+      carbs: 'carbs',
+      fat:'fat',
+      
     },
   },
   ingredient_recipe: {

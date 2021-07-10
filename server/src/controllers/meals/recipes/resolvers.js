@@ -4,10 +4,10 @@ const { asyncAdditiveArray } = require('../../../helpers/asyncHandler');
 
 const resolvers = {
   Query: {
-    allRecipes: async (_, __, { dataSources }, resolveInfo) => {
+    allRecipes: async (_, __, { dataSources }) => {
       return dataSources.RecipeAPI.getAllRecipes();
     },
-    recipe: async (_, args, { dataSources }, resolveInfo) => {
+    recipe: async (_, args, { dataSources }) => {
       return dataSources.RecipeAPI.getRecipe(args);
     },
   },
@@ -16,11 +16,9 @@ const resolvers = {
       // Adds any ingredients to the database which do not already exist & returns array with DB ID added
       let { result: ingredients, error } = await asyncAdditiveArray(
         args.recipe_input.ingredients,
-        'meal_ingredient_id',
-        getIngredientID,
+        getIDs,
         dataSources
       );
-      console.log(ingredients);
       // Since there is no column for ingredients (since using a junction table), must remove this field from mutation
       delete args.recipe_input.ingredients;
       // Adds recipe to db
@@ -29,26 +27,12 @@ const resolvers = {
         message,
         error: recipeError,
       } = await dataSources.RecipeAPI.createRecipe(args.recipe_input);
-      if (recipeError) console.log(`${recipeError.code} ${recipeError.type}: ${message}`);
       // Adds data to junction table with recipe/ingredient marriage data
-      Promise.all(
-        ingredients.map(async ({ unit, meal_ingredient_id, amount }) => {
-          // TODO Add error handling to GET functions & allow *adding* of units if it doesn't exist - like the ingredients handler
-          const [{ id: unit_id }] = await dataSources.UnitAPI.getUnit({ name: unit });
-          // TODO Add junction table error handling
-          let inputs = {
-            meal_ingredient_id,
-            meal_recipe_id,
-            amount,
-            unit_id,
-          };
-          // console.log('INPUTS', inputs);
-          await dataSources.RecipeAPI.joinRecipeAndIngredients(inputs);
-        })
-      );
+      let {result, error:finalError} = await handleJunctionInput(ingredients,meal_recipe_id, dataSources.RecipeAPI.joinRecipeAndIngredients)
       return { message };
     },
     deleteRecipe: async (_, args, { dataSources }) => {
+      // TODO Include deletion of junction table data
       return dataSources.RecipeAPI.deleteRecipe(args.id);
     },
     updateRecipe: async (_, args, { dataSources }) => {
@@ -57,20 +41,45 @@ const resolvers = {
   },
 };
 
-const getIngredientID = async (ingredient, dataSources) => {
-  let id;
+async function handleJunctionInput(array, meal_recipe_id, callback) {
+  let result = [];
+  let error;
+  for (let i = 0; i < array.length; i += 1) {
+    try {
+      const {meal_ingredient_id, amount, unit_id} = array[i]
+      const result = await callback({meal_recipe_id, meal_ingredient_id, amount, unit_id});
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return { result, error };
+}
+
+const getIDs = async (ingredient, dataSources) => {
+  let meal_ingredient_id;
   const [existingIngredient] = await dataSources.IngredientAPI.getIngredient({
     name: ingredient.name,
   });
+  const [existingUnit] = await dataSources.UnitAPI.getUnit({
+    name: ingredient.unit,
+  });
   if (existingIngredient) {
-    id = existingIngredient.id;
+    meal_ingredient_id = existingIngredient.id;
   } else {
     let { data } = await dataSources.IngredientAPI.createIngredient({
       name: ingredient.name,
     });
-    id = data;
+    meal_ingredient_id = data;
   }
-  return id;
+  if(existingUnit) {
+    unit_id = existingUnit.id;
+  } else {
+    let { data } = await dataSources.UnitAPI.createUnit({
+      name: ingredient.unit,
+    });
+    unit_id = data;
+  }
+  return {meal_ingredient_id, unit_id};
 };
 
 exports.resolvers = resolvers;
