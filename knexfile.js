@@ -9,11 +9,11 @@ const production = {
 };
 
 const development = {
-  host: databases.development.DEV_POSTGRES_HOST,
-  user: databases.development.DEV_POSTGRES_USER,
-  password: databases.development.DEV_POSTGRES_PASSWORD,
-  database: databases.development.DEV_POSTGRES_DB,
-  port: databases.development.DEV_POSTGRES_PORT,
+  host: databases.development.host,
+  user: databases.development.user,
+  password: databases.development.password,
+  database: databases.development.databaseName,
+  port: databases.development.port,
 };
 
 const jest = {
@@ -27,7 +27,7 @@ const jest = {
 module.exports = {
   jest: {
     client: 'pg',
-    jest,
+    connection: jest,
     migrations: {
       directory: './knex/migrations',
     },
@@ -37,7 +37,7 @@ module.exports = {
   },
   development: {
     client: 'pg',
-    development,
+    connection: development,
     migrations: {
       directory: './knex/migrations',
     },
@@ -47,7 +47,7 @@ module.exports = {
   },
   production: {
     client: 'pg',
-    production,
+    connection: production,
     migrations: {
       directory: './knex/migrations',
     },

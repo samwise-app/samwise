@@ -1,0 +1,9 @@
+knex/
+node_modules/
+test/
+.env
+.gitignore
+.eslintrc.js
+.prettierrc
+knexfile.js
+LICENSE

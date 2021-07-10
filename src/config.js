@@ -10,19 +10,20 @@ const databases = {
     host: process.env.JEST_DB_HOST,
     user: process.env.JEST_DB_USER,
     password: process.env.JEST_DB_PASSWORD,
-    databaseName: 'samwise-testing',
+    databaseName: process.env.JEST_DB_NAME,
   },
   development: {
     host: process.env.DEV_DB_HOST,
+    port: process.env.DEV_DB_PORT,
     user: process.env.DEV_DB_USER,
     password: process.env.DEV_DB_PASSWORD,
-    databaseName: 'samwise-development',
+    databaseName: process.env.DEV_DB_NAME,
   },
   production: {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    databaseName: 'samwise',
+    databaseName: process.env.DB_NAME,
   },
 };
 
