@@ -3,7 +3,7 @@
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 
-const { tableLibrary } = require('../lib/tableLibrary');
+const { tableLibrary } = require('../../src/lib/tableLibrary');
 
 const { book, author, book_author } = tableLibrary.knowledge.books;
 

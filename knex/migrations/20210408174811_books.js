@@ -1,6 +1,6 @@
 /** @param {import('knex').Knex} knex */
 const { addDefaultColumns, createJunctionTable } = require('../lib/helpers');
-const { tableLibrary } = require('../lib/tableLibrary');
+const { tableLibrary } = require('../../src/lib/tableLibrary');
 
 const { book, author } = tableLibrary.knowledge.books;
 

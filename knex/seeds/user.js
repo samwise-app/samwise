@@ -4,7 +4,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 const { v4: uuid } = require('uuid');
 
-const { tableLibrary } = require('../lib/tableLibrary');
+const { tableLibrary } = require('../../src/lib/tableLibrary');
 
 const { user, role, role_user } = tableLibrary.core;
 

@@ -1,7 +1,7 @@
 /* eslint-disable implicit-arrow-linebreak */
 const fetch = require('node-fetch');
 const Get = require('../../../models/get');
-const { tableLibrary } = require('../../../../knex/lib/tableLibrary');
+const { tableLibrary } = require('../../../lib/tableLibrary');
 
 const { book: db_Book } = tableLibrary.knowledge.books;
 const get = new Get(db_Book.tableName);

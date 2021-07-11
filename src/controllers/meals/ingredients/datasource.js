@@ -6,7 +6,7 @@ const Create = require('../../../models/create');
 const Delete = require('../../../models/delete');
 const Update = require('../../../models/update');
 
-const { tableLibrary } = require('../../../../knex/lib/tableLibrary');
+const { tableLibrary } = require('../../../lib/tableLibrary');
 
 const { ingredient: db_Ingredient } = tableLibrary.meal;
 

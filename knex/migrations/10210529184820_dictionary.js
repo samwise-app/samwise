@@ -1,6 +1,6 @@
 /** @param {import('knex').Knex} knex */
 const { addDefaultColumns } = require('../lib/helpers');
-const { tableLibrary } = require('../lib/tableLibrary');
+const { tableLibrary } = require('../../src/lib/tableLibrary');
 
 const { unit } = tableLibrary.dictionary;
 

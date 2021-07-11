@@ -6,7 +6,7 @@ const Create = require('../../models/create');
 const Delete = require('../../models/delete');
 const Update = require('../../models/update');
 
-const { tableLibrary } = require('../../../knex/lib/tableLibrary');
+const { tableLibrary } = require('../../../lib/tableLibrary');
 const { performGoogleAPISearch } = require('../~Third Party APIs/GoogleBooksAPI');
 
 const { book: db_Book, book_author: db_JunctionTable, author: db_Author } = tableLibrary.knowledge.books;
