@@ -31,4 +31,16 @@ const externalAPI = {
   googleBooksAPIKey: process.env.GOOGLE_BOOKS_API_KEY,
 };
 
-module.exports = { databases, environment, externalAPI, port, hostname };
+const knexConnection = environment === 'production' ? databases.production : databases.development;
+
+const knex = require('knex')({
+  client: 'pg',
+  knexConnection,
+});
+
+const test_knex = require('knex')({
+  client: 'pg',
+  connection: databases.jest,
+});
+
+module.exports = { databases, environment, externalAPI, port, hostname, knex, test_knex };

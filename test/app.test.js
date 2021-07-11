@@ -8,7 +8,7 @@ describe('GET /', () => {
     request(app).get('/').set('Accept', 'application/json').expect('Content-Type', /json/).expect(
       200,
       {
-        message: '👍👍',
+        message: '🚀 Success! Your API is running! 🤘',
       },
       done
     );
